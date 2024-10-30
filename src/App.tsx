@@ -16,9 +16,21 @@ function App() {
       canvas.on("selection:created", (e) => {
         const selectedObject = e.selected?.[0];
         if (selectedObject) {
-          const id = (selectedObject as any).id; // Type assertion if ID is not in fabric.Object type
-          handleSelectedShape(id);
+          const shape = shapesRef.current.find((s) => s === selectedObject);
+          setSelectedShape(shape || null);
         }
+      });
+
+      canvas.on("selection:updated", (e) => {
+        const selectedObject = e.selected?.[0];
+        if (selectedObject) {
+          const shape = shapesRef.current.find((s) => s === selectedObject);
+          setSelectedShape(shape || null);
+        }
+      });
+
+      canvas.on("selection:cleared", (e) => {
+        setSelectedShape(null);
       });
     }
 
@@ -29,11 +41,6 @@ function App() {
       }
     };
   }, []);
-
-  function handleSelectedShape(id: string) {
-    const shape = shapesRef.current.find((s) => s.id === id) || null;
-    setSelectedShape(shape);
-  }
 
   function handleAddRectangle() {
     const id = uuidv4();
@@ -46,6 +53,7 @@ function App() {
   function handleClick() {
     if (selectedShape) {
       moveRect(selectedShape, 10, 10);
+      selectedShape.setCoords();
       canvasRef.current?.renderAll();
     }
   }
