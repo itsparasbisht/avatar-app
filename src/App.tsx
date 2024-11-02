@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Canvas, FabricObject } from "fabric";
+import { Canvas, FabricImage, FabricObject, loadSVGFromURL } from "fabric";
 import { v4 as uuidv4 } from "uuid";
 import { addRect, moveRect } from "./canvasMethods.js";
 
@@ -10,7 +10,9 @@ function App() {
 
   useEffect(() => {
     if (!canvasRef.current) {
-      const canvas = new Canvas("canvas");
+      const canvas = new Canvas("canvas", {
+        backgroundColor: "grey",
+      });
       canvasRef.current = canvas;
 
       canvas.on("selection:created", (e) => {
@@ -58,11 +60,20 @@ function App() {
     }
   }
 
+  async function addImage() {
+    const oImg = await FabricImage.fromURL(
+      "https://fastly.picsum.photos/id/509/200/200.jpg?hmac=F3VucjvZ_2eEx_ObPM7NJ_Ymq5jESSGCuXo_8japTZc"
+    );
+    canvasRef.current?.add(oImg);
+    shapesRef.current.push(oImg);
+  }
+
   return (
     <div>
       <canvas id="canvas" width="800" height="800"></canvas>
       <button onClick={handleAddRectangle}>Add Rectangle</button>
       <button onClick={handleClick}>Move Right</button>
+      <button onClick={addImage}>Add Image</button>
     </div>
   );
 }
