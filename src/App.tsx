@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Canvas, FabricImage, FabricObject, loadSVGFromURL } from "fabric";
+import { Canvas, FabricImage, FabricObject, util } from "fabric";
 import { v4 as uuidv4 } from "uuid";
 import { addRect, moveRect } from "./canvasMethods.js";
 
@@ -68,12 +68,27 @@ function App() {
     shapesRef.current.push(oImg);
   }
 
+  function animateObject() {
+    selectedShape?.animate(
+      {
+        left: 750,
+      },
+      {
+        duration: 2000,
+        onChange: canvasRef?.current?.renderAll.bind(canvasRef?.current),
+        easing: util.ease.easeOutBounce,
+        onComplete: () => console.log("Animation completed!"),
+      }
+    );
+  }
+
   return (
     <div>
       <canvas id="canvas" width="800" height="800"></canvas>
       <button onClick={handleAddRectangle}>Add Rectangle</button>
       <button onClick={handleClick}>Move Right</button>
       <button onClick={addImage}>Add Image</button>
+      <button onClick={animateObject}>Animate</button>
     </div>
   );
 }
