@@ -55,7 +55,7 @@ function App() {
   function handleClick() {
     if (selectedShape) {
       moveRect(selectedShape, 10, 10);
-      selectedShape.setCoords();
+      selectedShape.setCoords(); // to update the selection
       canvasRef.current?.renderAll();
     }
   }
