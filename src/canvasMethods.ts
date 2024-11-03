@@ -1,4 +1,4 @@
-import { Gradient, Rect } from "fabric";
+import { FabricText, Gradient, Rect } from "fabric";
 
 export function addRect(id: string, color: string) {
   const rect = new Rect({
@@ -54,6 +54,19 @@ export function addRect(id: string, color: string) {
   rect.set("fill", gradient);
 
   return rect;
+}
+
+export function addText(content: string) {
+  const text = new FabricText(content, {
+    fontWeight: "bold",
+    fill: "white",
+    stroke: "black",
+    strokeWidth: 2,
+    fontFamily: "monospace",
+    backgroundColor: "red",
+  });
+
+  return text;
 }
 
 export function moveRect(rect: Rect, x: number, y: number) {

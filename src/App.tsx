@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Canvas, FabricImage, FabricObject, util } from "fabric";
 import { v4 as uuidv4 } from "uuid";
-import { addRect, moveRect } from "./canvasMethods.js";
+import { addRect, addText, moveRect } from "./canvasMethods.js";
 
 function App() {
   const canvasRef = useRef<Canvas | null>(null);
@@ -82,6 +82,14 @@ function App() {
     );
   }
 
+  function handleAddText() {
+    const id = uuidv4();
+    const text = addText("yellow srd fs\nsfdgsdfg\nbjhbi") as FabricObject;
+    text.set("id", id);
+    canvasRef.current?.add(text);
+    shapesRef.current.push(text);
+  }
+
   return (
     <div>
       <canvas id="canvas" width="800" height="800"></canvas>
@@ -89,6 +97,7 @@ function App() {
       <button onClick={handleClick}>Move Right</button>
       <button onClick={addImage}>Add Image</button>
       <button onClick={animateObject}>Animate</button>
+      <button onClick={handleAddText}>Add Text</button>
     </div>
   );
 }
