@@ -1,5 +1,14 @@
 import { useEffect, useRef, useState } from "react";
-import { Canvas, FabricImage, FabricObject, util } from "fabric";
+import {
+  Canvas,
+  FabricImage,
+  FabricObject,
+  FabricText,
+  Group,
+  PencilBrush,
+  Rect,
+  util,
+} from "fabric";
 import { v4 as uuidv4 } from "uuid";
 import { addRect, addText, moveRect } from "./canvasMethods.js";
 
@@ -11,9 +20,20 @@ function App() {
   useEffect(() => {
     if (!canvasRef.current) {
       const canvas = new Canvas("canvas", {
-        backgroundColor: "grey",
+        backgroundColor: "black",
       });
       canvasRef.current = canvas;
+
+      canvas.isDrawingMode = true;
+
+      canvas.freeDrawingBrush = new PencilBrush(canvas);
+      canvas.freeDrawingBrush.width = 5;
+      canvas.freeDrawingBrush.color = "red";
+
+      // Event listeners
+      canvas.on("path:created", (event) => {
+        console.log("New path drawn:", event.path);
+      });
 
       canvas.on("selection:created", (e) => {
         const selectedObject = e.selected?.[0];
@@ -90,6 +110,43 @@ function App() {
     shapesRef.current.push(text);
   }
 
+  function createGroup() {
+    const rect = new Rect({
+      fill: "red",
+      width: 100,
+      height: 100,
+      originX: "center",
+      originY: "center",
+    });
+
+    const text = new FabricText("op kpkpok fsdg", {
+      fontWeight: "bold",
+      fill: "white",
+      stroke: "black",
+      strokeWidth: 2,
+      fontFamily: "monospace",
+      textAlign: "center",
+      originX: "center",
+      originY: "center",
+    });
+
+    var group = new Group([rect, text], {
+      left: 100,
+      top: 100,
+      angle: 0,
+      originX: "center",
+      originY: "center",
+    });
+
+    canvasRef.current?.add(group);
+  }
+
+  function draw() {
+    if (canvasRef.current) {
+      canvasRef.current.isDrawingMode = !canvasRef.current?.isDrawingMode;
+    }
+  }
+
   return (
     <div>
       <canvas id="canvas" width="800" height="800"></canvas>
@@ -98,6 +155,8 @@ function App() {
       <button onClick={addImage}>Add Image</button>
       <button onClick={animateObject}>Animate</button>
       <button onClick={handleAddText}>Add Text</button>
+      <button onClick={createGroup}>Add Group</button>
+      <button onClick={draw}>Toggle draw</button>
     </div>
   );
 }
