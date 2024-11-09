@@ -8,6 +8,9 @@ export function addRect(id: string, color: string) {
     fill: color,
     width: 50,
     height: 50,
+    borderColor: "white",
+    cornerSize: 10,
+    cornerStrokeColor: "yellow",
   });
 
   const gradient = new Gradient({

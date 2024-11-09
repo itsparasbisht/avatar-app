@@ -21,10 +21,13 @@ function App() {
     if (!canvasRef.current) {
       const canvas = new Canvas("canvas", {
         backgroundColor: "black",
+        selectionLineWidth: 2,
+        selectionColor: "rgba(255,0,0,0.3)",
+        selectionDashArray: [5, 5],
       });
       canvasRef.current = canvas;
 
-      canvas.isDrawingMode = true;
+      canvas.isDrawingMode = false;
 
       canvas.freeDrawingBrush = new PencilBrush(canvas);
       canvas.freeDrawingBrush.width = 5;
