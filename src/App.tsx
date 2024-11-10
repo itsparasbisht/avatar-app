@@ -11,61 +11,62 @@ import {
 } from "fabric";
 import { v4 as uuidv4 } from "uuid";
 import { addRect, addText, moveRect } from "./canvasMethods.js";
+import LineChart from "./components/LineChart.js";
 
 function App() {
   const canvasRef = useRef<Canvas | null>(null);
   const shapesRef = useRef<FabricObject[]>([]);
   const [selectedShape, setSelectedShape] = useState<FabricObject | null>(null);
 
-  useEffect(() => {
-    if (!canvasRef.current) {
-      const canvas = new Canvas("canvas", {
-        backgroundColor: "black",
-        selectionLineWidth: 2,
-        selectionColor: "rgba(255,0,0,0.3)",
-        selectionDashArray: [5, 5],
-      });
-      canvasRef.current = canvas;
+  // useEffect(() => {
+  //   if (!canvasRef.current) {
+  //     const canvas = new Canvas("canvas", {
+  //       backgroundColor: "black",
+  //       selectionLineWidth: 2,
+  //       selectionColor: "rgba(255,0,0,0.3)",
+  //       selectionDashArray: [5, 5],
+  //     });
+  //     canvasRef.current = canvas;
 
-      canvas.isDrawingMode = false;
+  //     canvas.isDrawingMode = false;
 
-      canvas.freeDrawingBrush = new PencilBrush(canvas);
-      canvas.freeDrawingBrush.width = 5;
-      canvas.freeDrawingBrush.color = "red";
+  //     canvas.freeDrawingBrush = new PencilBrush(canvas);
+  //     canvas.freeDrawingBrush.width = 5;
+  //     canvas.freeDrawingBrush.color = "red";
 
-      // Event listeners
-      canvas.on("path:created", (event) => {
-        console.log("New path drawn:", event.path);
-      });
+  //     // Event listeners
+  //     canvas.on("path:created", (event) => {
+  //       console.log("New path drawn:", event.path);
+  //     });
 
-      canvas.on("selection:created", (e) => {
-        const selectedObject = e.selected?.[0];
-        if (selectedObject) {
-          const shape = shapesRef.current.find((s) => s === selectedObject);
-          setSelectedShape(shape || null);
-        }
-      });
+  //     canvas.on("selection:created", (e) => {
+  //       const selectedObject = e.selected?.[0];
+  //       if (selectedObject) {
+  //         const shape = shapesRef.current.find((s) => s === selectedObject);
+  //         setSelectedShape(shape || null);
+  //       }
+  //     });
 
-      canvas.on("selection:updated", (e) => {
-        const selectedObject = e.selected?.[0];
-        if (selectedObject) {
-          const shape = shapesRef.current.find((s) => s === selectedObject);
-          setSelectedShape(shape || null);
-        }
-      });
+  //     canvas.on("selection:updated", (e) => {
+  //       const selectedObject = e.selected?.[0];
+  //       if (selectedObject) {
+  //         const shape = shapesRef.current.find((s) => s === selectedObject);
+  //         setSelectedShape(shape || null);
+  //       }
+  //     });
 
-      canvas.on("selection:cleared", (e) => {
-        setSelectedShape(null);
-      });
-    }
+  //     canvas.on("selection:cleared", (e) => {
+  //       setSelectedShape(null);
+  //     });
+  //   }
 
-    return () => {
-      if (canvasRef.current) {
-        canvasRef.current.dispose();
-        canvasRef.current = null;
-      }
-    };
-  }, []);
+  //   return () => {
+  //     if (canvasRef.current) {
+  //       canvasRef.current.dispose();
+  //       canvasRef.current = null;
+  //     }
+  //   };
+  // }, []);
 
   function handleAddRectangle() {
     const id = uuidv4();
@@ -152,14 +153,16 @@ function App() {
 
   return (
     <div>
-      <canvas id="canvas" width="800" height="800"></canvas>
+      {/* <canvas id="canvas" width="800" height="800"></canvas>
       <button onClick={handleAddRectangle}>Add Rectangle</button>
       <button onClick={handleClick}>Move Right</button>
       <button onClick={addImage}>Add Image</button>
       <button onClick={animateObject}>Animate</button>
       <button onClick={handleAddText}>Add Text</button>
       <button onClick={createGroup}>Add Group</button>
-      <button onClick={draw}>Toggle draw</button>
+      <button onClick={draw}>Toggle draw</button> */}
+
+      <LineChart />
     </div>
   );
 }
